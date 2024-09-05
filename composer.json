@@ -1,5 +1,5 @@
 {
-    "name": "smile/gdpr-dump",
+    "name": "rramgarhia/gdpr-dump",
     "description": "A utility to create anonymized database dumps",
     "type": "library",
     "license": "GPL-3.0-or-later",
