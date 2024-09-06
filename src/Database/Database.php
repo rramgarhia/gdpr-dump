@@ -41,10 +41,17 @@ class Database
 
         $driver = $this->connectionParams->get('driver');
 
+        $max_packet_size = $this->connectionParams->get('max_packet_size');
+
         switch ($driver) {
             case self::DRIVER_MYSQL:
                 $this->driver = new MysqlDriver($this->connectionParams);
                 $this->metadata = new MysqlMetadata($this->connection);
+                
+                if($max_packet_size) {
+                    $this->setMaxAllowedPacket($max_packet_size);
+                }
+                
                 break;
 
             default:
@@ -83,4 +90,13 @@ class Database
     {
         return $this->connectionParams;
     }
+
+    /**
+     * Set max_allowed_packet for the current session.
+     */
+    private function setMaxAllowedPacket(int $packetSize): void
+    {
+        $this->connection->executeStatement('SET SESSION max_allowed_packet = ?', [$packetSize]);
+    }
+
 }
